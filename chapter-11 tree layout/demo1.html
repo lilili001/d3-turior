@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>d3-diagnal</title>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <style>
+        svg{background:#f9f8f7;}
+    </style>
+</head>
+<body>
+<script>
+    var data = [10,50,80];
+
+    var color = d3.scale.ordinal()
+        .range(['red','blue','orange']);
+
+    var canvas = d3.select('body')
+        .append('svg')
+        .attr('width',500)
+        .attr('height',500);
+
+    // 中心点移到100，100
+    var group = canvas.append('g')
+        .attr('transform','translate(100,100)');
+
+    var diagnal = d3.svg.diagonal()
+        .source({x:10,y:10})
+        .target({x:200,y:160})
+
+    group.append('path')
+        .attr('d',diagnal)
+        .attr('fill','none')
+        .attr('stroke','blue')
+
+</script>
+</body>
+</html>

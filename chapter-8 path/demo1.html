@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>d3-path</title>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <style>
+        svg{background:#f9f8f7;}
+    </style>
+</head>
+<body>
+<script>
+    var canvas = d3.select('body')
+        .append('svg')
+        .attr('width',500)
+        .attr('height',500);
+
+    //线条数据
+    var data = [
+        {x:10,y:100},
+        {x:60,y:200},
+        {x:100,y:400},
+    ];
+
+    // 创建线条 - 将数据转化为线条
+    var line = d3.svg.line()
+        .x(function(d){return d.x})
+        .y(function(d){return d.y});
+
+    canvas.append('g')
+        .selectAll('path')
+        .attr('transform','translate(100,100)')
+        .data([data])
+        .enter()
+            .append('path')
+            .attr('d',line)
+            .attr('fill','none')
+            .attr('stroke','blue')
+</script>
+</body>
+</html>

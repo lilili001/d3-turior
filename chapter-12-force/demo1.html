@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>d3-diagnal</title>
+    <script src="d3.v3.min.js"></script>
+    <script src="flickr_util.js"></script>
+    <style>
+        svg{background:#f9f8f7;}
+    </style>
+</head>
+<body>
+<script>
+    var data = [10,50,80];
+
+    var color = d3.scale.ordinal()
+        .range(['red','blue','orange']);
+
+    var canvas = d3.select('body')
+        .append('svg')
+        .attr('width',500)
+        .attr('height',500);
+
+    // 中心点移到100，100
+    var group = canvas.append('g')
+        .attr('transform','translate(100,100)');
+
+    var url = "https://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=a5b85b2d8b3b73729b9cf3a2a4233c9e&extras=tags%2Ccount_views&per_page=500&format=json&nojsoncallback=1";
+
+    d3.json(url,function (data) {
+        //获得 nodes 和 edges
+        var networks = FlickrUtils.getTagNetwork(data);
+        console.log(networks);
+    })
+
+</script>
+</body>
+</html>

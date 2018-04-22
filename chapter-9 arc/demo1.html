@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>d3-arc</title>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <style>
+        svg{background:#f9f8f7;}
+    </style>
+</head>
+<body>
+<script>
+    var canvas = d3.select('body')
+        .append('svg')
+        .attr('width',500)
+        .attr('height',500);
+
+    // 中心点移到100，100
+    var group = canvas.append('g')
+        .attr('transform','translate(100,100)');
+
+    //创建弧
+    var r = 100;
+    var p = Math.PI*2;
+
+    var arc = d3.svg.arc()
+        .innerRadius(r-20)
+        .outerRadius(r)
+        .startAngle(0)
+        .endAngle(p);
+
+    //新建路径
+    group.append('g')
+        .append('path')
+        .attr('d',arc)
+        .attr('fill','red')
+
+</script>
+</body>
+</html>

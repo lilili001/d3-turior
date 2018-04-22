@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>d3-arc</title>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <style>
+        svg{background:#f9f8f7;}
+    </style>
+</head>
+<body>
+<script>
+    var data = [10,50,80];
+
+    var color = d3.scale.ordinal()
+        .range(['red','blue','orange']);
+
+    var canvas = d3.select('body')
+        .append('svg')
+        .attr('width',500)
+        .attr('height',500);
+
+    // 中心点移到100，100
+    var group = canvas.append('g')
+        .attr('transform','translate(100,100)');
+
+    var r = 100;
+    var p = Math.PI*2;
+
+    //创建弧
+    var arc = d3.svg.arc()
+        .innerRadius(r-40)
+        .outerRadius(r);
+
+    //创建pie
+    var pie = d3.layout.pie()
+        .value(function(d){return d});
+
+    //新建路径 绑定数据 并创建 g.arc节点
+    var arcs = group.selectAll('.arc')
+        .data(pie(data))
+        .enter()
+        .append('g')
+        .attr('class','arc');
+
+    //创建path节点
+    arcs.append('path')
+        .attr('d',arc)
+        .attr('fill',function(d,i){
+            return color(d.data)
+        });
+    arcs.append('text')
+        .attr('transform',function(d){
+            return "translate("+arc.centroid(d)+")"
+        })
+        .text(function(d){return d.data})
+        .attr('text-anchor','middle')
+        .attr('fill','#fff')
+        .attr('font-size','12px')
+
+</script>
+</body>
+</html>

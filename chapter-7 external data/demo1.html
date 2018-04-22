@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>d3-external data</title>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <style>
+        svg{background:#f9f8f7;}
+    </style>
+</head>
+<body>
+<script>
+    d3.json('data.json',function(data){
+        var data = data.data;
+
+         var canvas = d3.select('body')
+             .append('svg')
+             .attr('width',500)
+             .attr('height',500)
+
+        var rect = canvas.append('g')
+            .selectAll('rect')
+            .data(data)
+            .enter()
+            .append('rect')
+            .attr('width',function(d){ return d.age*10})
+            .attr('height',30)
+            .attr('y',function(d,i){
+                return i*50
+            })
+            .attr('fill','blue');
+
+        var text = canvas.append('g')
+            .selectAll('text')
+            .data(data)
+            .enter()
+            .append('text')
+            .attr('y',function(d,i){
+                return i*50+20
+            })
+            .attr('fill','#fff')
+            .text(function(d){return d.name})
+    })
+</script>
+</body>
+</html>
