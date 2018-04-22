@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>d3-scale</title>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <style>
+        svg{background:#f9f8f7;}
+    </style>
+</head>
+<body>
+<script>
+    var data = [10,40,50,60];
+    var width = height = 500;
+    var widthScale = d3.scale.linear()
+        .domain([0,60])
+        .range([0,width]);
+
+    var colorScale = d3.scale.linear()
+        .domain([0,60])
+        .range(['red','blue']);
+
+    var axis = d3.svg.axis()
+        .orient('top') //指定刻度的方向
+        .scale(widthScale);//根据横向比例尺生成的坐标轴
+
+    var canvas = d3.select('body')
+        .append('svg')
+        .attr('width',width)
+        .attr('height',height);
+
+    var rect = canvas.append('g').selectAll('rect')
+        .data(data)
+        .enter()
+        .append('rect')
+        .attr('width',function(d){return widthScale(d)})
+        .attr('height',50)
+        .attr('fill',function(d){return colorScale(d)})
+        .attr('y',function(d,i){
+            return i*60;
+        })
+    canvas.append('g')
+        .attr('transform','translate(0,400)')
+        .call(axis);
+</script>
+</body>
+</html>
