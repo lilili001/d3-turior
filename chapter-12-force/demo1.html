@@ -3,10 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>d3-diagnal</title>
-    <script src="d3.v3.min.js"></script>
-    <script src="flickr_util.js"></script>
+    <script src="js/d3.v3.min.js"></script>
+    <script type="text/javascript" src="js/netClustering.js">   </script>
+    <script type="text/javascript" src="js/forceInABoxv3.js"></script>
+    <script src="js/flickr_util.js"></script>
     <style>
-        svg{background:#f9f8f7;}
+        #chart rect { 
+            fill: white;
+        }
+
+        path.link {
+          fill: none;
+          stroke: #666;
+          stroke-width: 2px;
+        }
+
+        marker#licensing {
+          fill: lightgreen;
+        }
+
+        path.link.licensing {
+          stroke: lightgreen;
+        }
+
+        path.link.resolved {
+          stroke-dasharray: 0,2 1;
+        }
+
+        circle {
+          fill: #ccc;
+          stroke: #333;
+          stroke-width: 3px;
+        }
+
+        text {
+          font: 14px sans-serif;
+          pointer-events: none;
+        }
+
+        text.shadow {
+          stroke: #fff;
+          stroke-width: 4px;
+        }
     </style>
 </head>
 <body>
@@ -16,21 +54,101 @@
     var color = d3.scale.ordinal()
         .range(['red','blue','orange']);
 
-    var canvas = d3.select('body')
+    var w=800,h=600;
+
+    var svg = d3.select('body')
         .append('svg')
-        .attr('width',500)
-        .attr('height',500);
+        .attr('width',w)
+        .attr('height',h);
 
     // 中心点移到100，100
-    var group = canvas.append('g')
+    var group = svg.append('g')
         .attr('transform','translate(100,100)');
 
-    var url = "https://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=a5b85b2d8b3b73729b9cf3a2a4233c9e&extras=tags%2Ccount_views&per_page=500&format=json&nojsoncallback=1";
+    var xScale = d3.scale.linear().range([2, 15]);
+    var colScale = d3.scale.linear().range(["grey", "red"]);
+    var colorScale = d3.scale.category20();
+
+    var force;
+    //update方法
+    function update(nodes,links){
+        xScale.domain(d3.extent(nodes, function (d) { return d.value; }));
+        colScale.domain(d3.extent(links, function (d) { return d.value; }));
+
+        force = d3.layout.force()
+                .nodes(nodes)
+                .links(links)
+                .size([w,h])
+                .linkDistance(80)
+                .charge(-500)// 负数越大月分散【-500】 越小越集中【-50】
+                .gravity(0.2)
+                .on('tick',tick)
+                .start();
+
+        //draw links
+        var path = svg.append('g').selectAll('path')
+            .data(force.links())
+            .enter()
+            .append('path')
+            .style("stroke", function (d) {return colScale(d.value); })
+            .attr('class','link');
+
+        //draw circle node
+        var circle = svg.append('g').selectAll('circle')
+            .data(force.nodes())
+            .enter()
+            .append('circle')
+            .style("fill", function (d) { return colorScale(d.cluster); })
+            .attr('r',function(d){
+                return xScale(d.value)
+            })
+            .call(force.drag); //这个方法可以拖拽节点
+
+        //draw text
+        var text = svg.append('g').selectAll('text')
+            .data(force.nodes())
+            .enter() 
+            .append('g');  
+             
+        text.append('text')
+        .attr('x',20)
+        .attr('y',20)
+        .attr('class','shadow')
+        .text(function(d){return d.name});
+        
+        text.append('text')
+        .attr('x',20)
+        .attr('y',20)
+        .text(function(d){return d.name});
+
+        //tick make the animation in the force layout 
+        function tick(e){
+            
+            circle.attr('transform',function(d){
+                return "translate("+d.x+ "," +d.y+ ")"
+            });
+
+            text.attr('transform',function(d){
+                return "translate("+d.x+ "," +d.y+ ")"
+            });
+
+            path.attr("d", function(d) {
+                var dx = d.target.x - d.source.x,
+                    dy = d.target.y - d.source.y,
+                    dr = Math.sqrt(dx * dx + dy * dy);
+                return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+            });
+
+        }
+    }
+
+    var url = "https://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=b0151f5f4e797772e0801969e4dda429&extras=tags%2Ccount_views&per_page=500&format=json&nojsoncallback=1";
 
     d3.json(url,function (data) {
         //获得 nodes 和 edges
         var networks = FlickrUtils.getTagNetwork(data);
-        console.log(networks);
+        netClustering.cluster(networks.nodes, networks.edges);
+        update(networks.nodes,networks.edges)
     })
 
 </script>
