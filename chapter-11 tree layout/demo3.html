@@ -5,7 +5,7 @@
     <title>d3-diagnal</title>
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <style>
-        svg{background:#f9f8f7;}
+
     </style>
 </head>
 <body>
@@ -49,7 +49,7 @@
             .attr('fill','steelblue');
 
         node.append('text')
-            .text(function(d){return d.name})
+            .text(function(d){return d.name});
 
         var link = group.append('g').selectAll('.link')
             .data(links)
@@ -64,7 +64,8 @@
             })
             //.attr('d',diagnal)
             .attr('fill','none')
-            .attr('stroke','steelblue')
+            .attr('stroke','green')
+            .attr('stroke-width',1)
     });
 </script>
 </body>

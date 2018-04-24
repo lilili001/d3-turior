@@ -11,14 +11,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="demo3.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/chapter-12-force/demo3.html">
+      <file leaf-file-name="demo4.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/chapter-11 tree layout/demo4.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="127" column="27" lean-forward="true" selection-start-line="127" selection-start-column="27" selection-end-line="127" selection-end-column="27" />
-              <folding>
-                <element signature="n#style#0;n#head#0;n#html#0;n#!!top" />
-              </folding>
+            <state relative-caret-position="165">
+              <caret line="198" lean-forward="true" selection-start-line="198" selection-end-line="198" />
             </state>
           </provider>
         </entry>
@@ -37,7 +34,13 @@
     <findStrings>
       <find>checkGroupInABox</find>
       <find>dash</find>
+      <find>style</find>
+      <find>green</find>
+      <find>on</find>
     </findStrings>
+    <replaceStrings>
+      <replace>#ddd</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -49,6 +52,10 @@
         <option value="$PROJECT_DIR$/chapter-12-force/demo1.html" />
         <option value="$PROJECT_DIR$/chapter-12-force/demo2.html" />
         <option value="$PROJECT_DIR$/chapter-12-force/demo3.html" />
+        <option value="$PROJECT_DIR$/chapter-12-force/index.html" />
+        <option value="$PROJECT_DIR$/chapter-11 tree layout/data.json" />
+        <option value="$PROJECT_DIR$/chapter-11 tree layout/demo3.html" />
+        <option value="$PROJECT_DIR$/chapter-11 tree layout/demo4.html" />
       </list>
     </option>
   </component>
@@ -82,7 +89,7 @@
             <path>
               <item name="d3-turior" type="b2602c69:ProjectViewProjectNode" />
               <item name="d3-turior" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="chapter-12-force" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="chapter-11 tree layout" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
           <select />
@@ -109,7 +116,7 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="G:/yx/targetManage/branches/dev1.0/dataSourceManage" />
     <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.web.browsers" />
   </component>
   <component name="RecentsManager">
@@ -117,6 +124,7 @@
       <recent name="F:\laragon\www\d3-turior\chapter-12-force\js" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\laragon\www\d3-turior\chapter-11 tree layout" />
       <recent name="F:\laragon\www\d3-turior\chapter-12-force" />
     </key>
   </component>
@@ -145,12 +153,12 @@
       <workItem from="1524446370121" duration="1077000" />
       <workItem from="1524448760849" duration="882000" />
       <workItem from="1524451058887" duration="464000" />
-      <workItem from="1524451547541" duration="5830000" />
+      <workItem from="1524451547541" duration="26820000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8253000" />
+    <option name="totallyTimeSpent" value="29243000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
@@ -211,13 +219,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chapter-10 pie layout/demo1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="9" column="7" lean-forward="true" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chapter-12-force/miserable.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="230">
@@ -254,11 +255,53 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/chapter-12-force/demo3.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="127" column="27" lean-forward="true" selection-start-line="127" selection-start-column="27" selection-end-line="127" selection-end-column="27" />
+        <state relative-caret-position="205">
+          <caret line="96" column="17" selection-start-line="96" selection-start-column="17" selection-end-line="96" selection-end-column="17" />
           <folding>
             <element signature="n#style#0;n#head#0;n#html#0;n#!!top" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chapter-12-force/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="598">
+          <caret line="624" column="9" selection-start-line="624" selection-start-column="9" selection-end-line="624" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://F:/download/OrgChart/OrgChart/common/samples.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chapter-10 pie layout/demo1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="58" column="33" lean-forward="true" selection-start-line="58" selection-start-column="8" selection-end-line="58" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chapter-11 tree layout/data.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="10" column="22" lean-forward="true" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chapter-11 tree layout/demo3.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="828">
+          <caret line="61" column="22" selection-start-line="61" selection-start-column="22" selection-end-line="61" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chapter-11 tree layout/demo4.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="198" lean-forward="true" selection-start-line="198" selection-end-line="198" />
         </state>
       </provider>
     </entry>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>d3-diagnal</title>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="http://underscorejs.org/underscore-min.js"></script>
+    <style>
+    .link{
+        stroke:#ddd;
+        stroke-width: 1px;
+    }
+    .on{
+        fill:red
+    }
+    .on circle{fill:red}
+    </style>
+</head>
+<body>
+<script>
+    var data = [10,50,80];
+
+    // https://github.com/wbkd/d3-extended
+    d3.selection.prototype.moveToFront = function() {
+        return this.each(function(){
+            $(this).parents('.link-container').append( $(this).parent() )
+            //this.parentNode.appendChild(this);
+        });
+    };
+    d3.selection.prototype.moveToBack = function() {
+        return this.each(function() {
+            var firstChild = this.parentNode.firstChild;
+            if (firstChild) {
+                this.parentNode.insertBefore(this, firstChild);
+            }
+        });
+    };
+
+    var color = d3.scale.ordinal()
+        .range(['red','blue','orange']);
+    var w = 800,h=800;
+    var canvas = d3.select('body')
+        .append('svg')
+        .attr('width',w)
+        .attr('height',h);
+
+    // 中心点移到100，100
+    var group = canvas.append('g')
+        .attr('transform','translate(50,0)');
+
+    var diagnal = d3.svg.diagonal()
+        .projection(function(d){return [d.y,d.x]});
+
+    var tree = d3.layout.tree()
+        .size([400,500]);
+
+    d3.json('data.json',function(data){
+        var nodes = tree.nodes(data);
+        var links = tree.links(nodes);
+
+        var link = group.append('g')
+            .attr('class','link-container')
+            .selectAll('.link')
+            .data(links)
+            .enter()
+            .append('g')
+            .attr('class','link-group');
+
+        //添加横线
+        link.append('path')
+            .attr('class','line-h')
+            .attr('index',function(d,i){
+                return i
+            })
+            .attr('start-points',function(d){
+                return d.source.y+","+d.source.x //起点: 起点 y , x
+            })
+            .attr('end-points',function(d){
+                return (d.source.y+120)+","+d.source.x //终点: 起点 y+120 , x
+            })
+            .attr('node-points',function(d){
+                return d.source.y+"-"+d.source.x+
+                    ":"+(d.source.y+120)+"-"+d.source.x
+            })
+            .attr('stroke-org','#ddd')
+            .attr('stroke','#ddd')
+            .attr('stroke-opacity',0)
+            .attr('d',function(d){
+                return  "M"+ d.source.y+" "+d.source.x+
+                    "L"+(d.source.y+120)+" "+d.source.x
+            })
+            .attr('fill','none');
+
+        //添加折线
+        link.append('path')
+            .attr('class','line-zhexian')
+            .attr('id',function(d,i){return 'zx-'+i})
+            .attr('fill','none')
+            .attr('index',function(d,i){
+                return i;
+            })
+            .attr('stroke','#ddd')
+            .attr('stroke-width',1)
+            .attr('start-points',function(d){
+                return (d.source.y+120)+","+d.source.x //起点: 起点y+120 , x
+            })
+            .attr('end-points',function(d){
+                return d.target.y+","+d.target.x //终点: 终点y , x
+            })
+            .attr('d',function(d){
+                return "M"+(d.source.y+120)+" "+d.source.x+
+                    " L"+(d.source.y+120)+" "+d.target.x+
+                    " L"+ d.target.y+" "+d.target.x;
+            });
+
+
+        //添加节点
+        var node = group.append('g').selectAll('.nodes')
+            .data(nodes)
+            .enter()
+            .append('g')
+            .attr('index',function(d,i){return i})
+            .attr('class','node')
+            .attr('points',function(d){
+                return d.y+","+d.x
+            })
+            .attr('transform',function(d){
+                //节点根据x y属性定位
+                return "translate("+d.y+   ","+ d.x  +")"
+            });
+
+        node.append('circle')
+            .attr('r',20)
+            .attr('fill','steelblue')
+            .attr('depth',function(d){return d.depth})
+            .on('click',function(){
+
+            })
+            .on('mouseover',function(d,i){
+
+                $(this).parent().addClass('on');
+
+                if( d.children !== undefined ) return;
+                 d3.selectAll('path')
+                     .attr('stroke','#ddd');
+                // 终点坐标 ( d.y , d.x )
+                var obj = {
+                    y : d.y,
+                    x: d.x
+                };
+
+                //根据终点找线和起点 以此递归
+                findLinesAndNodes(obj,i);
+                function findLinesAndNodes(obj,index){
+                    var endPoint = obj.y+","+obj.x;
+                    var zhexian = $('.line-zhexian[end-points="'+endPoint+'"]');
+
+                    if( zhexian.length > 0 ){
+                        var hline = $('.line-h[end-points="'+ zhexian.attr('start-points') +'"]');
+                        var startObj = $('.node[points="'+ hline.attr('start-points') +'"]');
+
+                        var obj = {
+                            y: hline.attr('start-points').split(',')[0],
+                            x: hline.attr('start-points').split(',')[1]
+                        };
+
+                        zhexian.attr('stroke','red').attr('z-index',9999);
+                        hline.attr('stroke','red');
+                        startObj.attr('class','node on');
+                        d3.select( '#zx-'+index ).moveToFront();
+                        findLinesAndNodes( obj, startObj.attr('index') );
+                    }
+                }
+            }).on('mouseout',function(d,i){
+                d3.selectAll('.node').classed('on',false);
+                d3.selectAll('path')
+                    .attr('stroke','#ddd')
+                });
+        // node.append('text')
+        //     .text(function(d){
+        //         return 'x:'+ d.x +" --- y:"+d.y
+        //     })
+        //     .attr('x',0)
+        //     .attr('y',30)
+        //     .attr('font-size','12px');
+
+        node.append('text')
+            .attr('x',30)
+            .text(function(d){return d.name});
+
+        // 起点横线重复处理 重复的透明度初始化为0 然后每根透明度为1
+        var tempArr = [];
+        var lineHs = $('.line-h');
+
+        $.each(lineHs,function(i,item){
+            var index = $(item).attr('index');
+            var nodePoins = $(item).attr('node-points');//start points 和 end points
+
+            var temp = {
+                index:index,
+                nodePoints:nodePoins
+            };
+
+            if(tempArr.length == 0){
+                tempArr.push( temp );
+            }else{
+                //根据index 查找node-points
+                var result = _.where( tempArr,{ nodePoints: nodePoins } );
+                if( !(result.length > 0) ){
+                    tempArr.push( temp );
+                }
+            }
+        });
+
+        $.each( tempArr , function(i,item){
+            $('.line-h[index="'+item.index+'"]').attr('stroke-opacity',1)
+        });
+
+    });
+</script>
+</body>
+</html>

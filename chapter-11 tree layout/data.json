@@ -6,7 +6,15 @@
       "children":[
         {"name":"Craig"},
         {"name":"Robin"},
-        {"name":"Anna"}
+        {"name":"Anna"},
+        {"name":"Anise",
+          "children":[
+            {"name":"Polyna"},
+            {"name":"Joe"},
+            {"name":"Alice"},
+            {"name":"Melody"}
+          ]
+        }
       ]
     },
     {
