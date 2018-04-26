@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>remark</title>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <style>
+        svg{background:#f9f8f7}
+    </style>
+</head>
+<body>
+<script>
+    var w = 500,h=500;
+
+    var svg = d3.select('body')
+    .append('svg')
+    .attr('width',w)
+    .attr('height',h);
+
+    var group = svg.append('g')
+        .attr('transform','translate(100,100)');
+
+    var r = 100;
+    var arc = d3.svg.arc()
+        .innerRadius(r-20)
+        .outerRadius(r)
+        .startAngle(Math.PI*1.25)
+        .endAngle(Math.PI * 2.75);
+
+    group.append('g')
+        .append('path')
+        .attr('d',arc)
+        .attr('fill','#fff')
+        .transition()
+        .duration(500)
+        .attr('fill','#cc0000')
+
+</script>
+</body>
+</html>
